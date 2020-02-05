@@ -1,2 +1,2 @@
-PyGithub==1.45
+PyGithub
 slackclient==2.5.0
