@@ -73,18 +73,21 @@ class GitHubReport(object):
         """
         today = datetime.datetime.now(datetime.timezone.utc).astimezone(pytz.timezone('US/Pacific'))
 
-        total = sum([summary[repo]['total'] for repo in summary.keys()])
-        additions = sum([summary[repo]['additions'] for repo in summary.keys()])
-        deletions = sum([summary[repo]['deletions'] for repo in summary.keys()])
+        if summary is not None:
+            total = sum([summary[repo]['total'] for repo in summary.keys()])
+            additions = sum([summary[repo]['additions'] for repo in summary.keys()])
+            deletions = sum([summary[repo]['deletions'] for repo in summary.keys()])
 
-        message = base_message.format(today.strftime('%Y/%m/%d (US/Pacific)'), total, additions, deletions)
+            message = base_message.format(today.strftime('%Y/%m/%d (US/Pacific)'), total, additions, deletions)
 
-        for repo in summary.keys():
-            text = "\t`{0}` Total: {1}, Additions: {2}, Deletions: {3}\n".format(repo,
-                                                                                 summary[repo]['total'],
-                                                                                 summary[repo]['additions'],
-                                                                                 summary[repo]['deletions'])
-            message += text
+            for repo in summary.keys():
+                text = "\t`{0}` Total: {1}, Additions: {2}, Deletions: {3}\n".format(repo,
+                                                                                     summary[repo]['total'],
+                                                                                     summary[repo]['additions'],
+                                                                                     summary[repo]['deletions'])
+                message += text
+        else:
+            message = base_message + "\nNo edited lines"
 
         return message
 
