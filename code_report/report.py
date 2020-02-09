@@ -39,7 +39,7 @@ class GitHubReport(object):
 
             today = datetime.datetime.now(datetime.timezone.utc)
 
-            date_range = [today.replace(hour=0, minute=0, second=0), today - datetime.timedelta(days=1)]
+            date_range = [today - datetime.timedelta(days=1), today + datetime.timedelta(days=1)]
             committed_date = datetime.datetime.strptime(data['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ'
                                                         ).replace(tzinfo=pytz.UTC)
 
@@ -74,7 +74,7 @@ class GitHubReport(object):
         """
         today = datetime.datetime.now(datetime.timezone.utc).astimezone(pytz.timezone('US/Pacific'))
 
-        if summary is not None:
+        if summary is not {}:
             total = sum([summary[repo]['total'] for repo in summary.keys()])
             additions = sum([summary[repo]['additions'] for repo in summary.keys()])
             deletions = sum([summary[repo]['deletions'] for repo in summary.keys()])
