@@ -39,8 +39,9 @@ class GitHubReport(object):
 
             today = datetime.datetime.now(datetime.timezone.utc)
 
-            date_range = [today.replace(day=4, hour=0, minute=0, second=0), today.replace(hour=23, minute=59, second=59)]
-            committed_date = datetime.datetime.strptime(data['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=pytz.UTC)
+            date_range = [today.replace(hour=0, minute=0, second=0), today - datetime.timedelta(days=1)]
+            committed_date = datetime.datetime.strptime(data['commit']['author']['date'], '%Y-%m-%dT%H:%M:%SZ'
+                                                        ).replace(tzinfo=pytz.UTC)
 
             if data['commit']['author']['name'] in AUTHORS and date_range[0] <= committed_date <= date_range[1]:
                 stats['total'] += data['stats']['total']
